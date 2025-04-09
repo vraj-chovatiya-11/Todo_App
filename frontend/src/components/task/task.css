@@ -23,7 +23,6 @@
   .todo-form {
     display: flex;
     margin-bottom: 24px;
-    border: 1px solid red;
   }
   
   .todo-input {

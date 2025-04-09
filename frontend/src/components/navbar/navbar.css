@@ -157,10 +157,11 @@
     display: none;
     position: absolute;
     /* top: 45px; */
-    background-color: #f1f1f1;
+    background-color: white;
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
+    border-radius: 10px;
   }
 
   .dropup-content a {
@@ -174,10 +175,23 @@
 
   .dropup:hover .dropup-content {
     display: block;
+    color: white;
   }
 
   .dropup:hover .dropbtn {
     background-color: tomato;
+    color: white;
+  }
+  .dropup .dropup-content a:hover{
+    color: white;
+  }
+
+  .dropup:hover .dropup-content a:last-child{
+    border-radius: 0 0 10px 10px;
+  }
+
+  .dropup:hover .dropup-content a:first-child{
+    border-radius: 10px 10px 0 0;
   }
 
   .menu-btn {

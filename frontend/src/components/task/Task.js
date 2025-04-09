@@ -19,11 +19,28 @@ const Task = () => {
 
     if (editId !== null) {
       // Update existing todo
-      setTodos(
-        todos.map((todo) =>
-          todo.id === editId ? { ...todo, description: inputValue } : todo
-        )
+
+      const updateTodo = todos.map((todo) =>
+        todo.id === editId ? { ...todo, description: inputValue } : todo
       );
+
+      const updatedData = { description: inputValue };
+      try {
+        const validtoken = sessionStorage.getItem("token");
+        const response = await axios.put(
+          `http://localhost:5000/api/todos/${editId}`,
+          updatedData,{
+            headers: {
+                authorization: `Bearer ${validtoken}`,
+            },
+          }
+        );
+      } catch (err) {
+        console.log("Error on update todo", err);
+      }
+      console.log("this is update id", editId);
+
+      setTodos(updateTodo);
       setEditId(null);
     } else {
       // Add new todo
@@ -44,7 +61,7 @@ const Task = () => {
           }
         );
 
-        console.log("whati is response",response);
+        console.log("whati is response", response);
       } catch (err) {
         console.log("Error on create new todo", err);
       }
