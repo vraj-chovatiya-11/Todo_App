@@ -48,7 +48,6 @@ const validationRegisterInput = ( username, email, password ) => {
 const validationLoginInput = (email, password) => {
   const errors = {};
 
-  // console.log(email, password, "kgsdfjkgasdf ");
   // Email validation
   if (!email || email.trim() === "") {
     errors.email = "Email is required";

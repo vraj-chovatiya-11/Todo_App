@@ -3,7 +3,6 @@ const bcrypt = require('bcryptjs');
 
 class User {
     static async findById(id){
-        // console.log("object", id);
         try{
             const [rows] = await pool.query('SELECT * from test WHERE id = ?', [id]);
             return rows[0];
@@ -41,7 +40,6 @@ class User {
                 [userData.username, userData.email, hashedPassword, userData.profileImage || null]
             );
             
-            // console.log("object");
             return result.insertId;
         }catch(error){
             // throw new Error(error);
@@ -61,7 +59,6 @@ class User {
     }
 
     static async comparePassword(password, hashedPassword){
-        // console.log("object");
         return await bcrypt.compare(password, hashedPassword);
     }
 

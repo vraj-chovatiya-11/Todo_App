@@ -75,7 +75,6 @@ exports.login = async (req, res) => {
 
     const isMatch = await User.comparePassword(password, dbPassword.password);
 
-    // console.log("isPassword Match : ", isMatch);
     console.log("User logged In id :", dbPassword.id);
     if (!isMatch) {
       return res.status(400).json({ message: "Invalid Credential.!" });
@@ -87,7 +86,6 @@ exports.login = async (req, res) => {
       },
     };
 
-    // console.log("User id : ",dbPassword.id);
     const token = jwt.sign(
       {
         id: dbPassword.id,
@@ -109,7 +107,6 @@ exports.login = async (req, res) => {
 
 exports.getCurrentUser = async (req, res) => {
   try {
-    // console.log("-------------------------------");
     const uId = req.user;
     const user = await User.findById(uId);
     if (!user) {

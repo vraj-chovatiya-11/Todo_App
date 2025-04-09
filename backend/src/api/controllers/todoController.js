@@ -6,7 +6,6 @@ exports.createTodo = async (req, res) => {
     const userId = req.user;
 
     // create todo
-    // console.log(description, userId);
 
     const todoId = await Todo.create(userId, description);
 
@@ -24,9 +23,7 @@ exports.createTodo = async (req, res) => {
 // Get all todos for current user
 exports.getAllTodos = async (req, res) => {
   try {
-    // console.log(req.user , "req user")
     const id = req.user;
-    // console.log(id, "in controlller")
     // let todos;
 
     let todos = await Todo.getAllByUserId(id);
@@ -38,31 +35,6 @@ exports.getAllTodos = async (req, res) => {
   }
 };
 
-// exports.deleteTodo = async (req, res) => {
-//     try {
-//       const todoId = req.params.id;
-
-//       // Check if todo exists
-//       const existingTodo = await Todo.getById(todoId, req.user.id);
-//       if (!existingTodo) {
-//         return res.status(404).json({ message: 'Todo not found' });
-//       }
-
-//       // Delete todo
-//       const deleted = await Todo.delete(todoId, req.user.id);
-
-//       if (!deleted) {
-//         return res.status(400).json({ message: 'Delete failed' });
-//       }
-
-//       res.json({
-//         message: 'Todo deleted successfully'
-//       });
-//     } catch (error) {
-//       console.error('Delete todo error:', error);
-//       res.status(500).json({ message: 'Server error' });
-//     }
-//   };
 
 exports.deleteTodo = async (req, res) => {
   try {
@@ -81,10 +53,7 @@ exports.deleteTodo = async (req, res) => {
     }else{
         res.status(200).json({ message: "Todo Deleted Successfully..." });
     }
-    
-    // console.log("what is delete id", deleted);
 
-    // console.log("object");
   } catch (error) {
     console.log("Delete todo error.", error);
     res.status(500).json({ message: "Server error" });
@@ -98,9 +67,6 @@ exports.updateTodo = async (req, res) => {
   const description = req.body.description;
   
   const userId = req.user;
-
-  // console.log("this is what im getting");
-  // console.log(todoId, description, userId);
 
   const updatedTodo = await Todo.updateTodo({todoId, description, userId});
   

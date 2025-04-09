@@ -2,7 +2,6 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 const auth = async (req, res, next) => {
-    // console.log(req.headers, "headers")
     const authHeader = req.headers.authorization
 
     if(!authHeader){
@@ -18,7 +17,6 @@ const auth = async (req, res, next) => {
     // token verify
     try{
         const {id} = jwt.verify(token, process.env.JWT_SECRET);
-        // console.log(id, "decode")
         req.user = id;
         next();
     }catch(err){

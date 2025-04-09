@@ -18,9 +18,6 @@ class Todo {
 
   static async create(userId, description) {
     try {
-      // console.log("this is user id adsd", userId);
-      // console.log("thuis is todo data", description);
-
       const [result] = await pool.query(
         "INSERT INTO todos (user_id, description) VALUES (?, ?)",
         [userId, description]
@@ -28,7 +25,6 @@ class Todo {
       return result.insertId;
     } catch (error) {
       console.log("User not Found Error");
-      // throw new Error(error);
       return null;
     }
   }
@@ -83,7 +79,6 @@ class Todo {
   }
 
   static async updateTodo({ todoId, description, userId }) {
-    // console.log(todoId, description, userId, "hello vraj this is update ");
     try {
       const [result] = await pool.query(
         "UPDATE todos set description = ? where id = ? and user_id = ?",
