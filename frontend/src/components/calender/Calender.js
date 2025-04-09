@@ -1,12 +1,12 @@
 import React from "react";
-import Navbar from "../navbar/Navbar";
 import "./calender.css";
+import Navbar from "../navbar/Navbar";
 
 const Calender = () => {
   return (
     <>
+    <Navbar />  
       <div className="calender-container">
-      <Navbar />
         <h1>THis is calender page</h1>
       </div>
     </>

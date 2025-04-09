@@ -29,9 +29,10 @@ const Task = () => {
         const validtoken = sessionStorage.getItem("token");
         const response = await axios.put(
           `http://localhost:5000/api/todos/${editId}`,
-          updatedData,{
+          updatedData,
+          {
             headers: {
-                authorization: `Bearer ${validtoken}`,
+              authorization: `Bearer ${validtoken}`,
             },
           }
         );
@@ -80,17 +81,20 @@ const Task = () => {
 
   const handleDelete = async (id) => {
     const deleteTodo = todos.filter((todo) => todo.id !== id);
-    
-    try{
-        const validtoken = sessionStorage.getItem("token");
-        const response = await axios.delete(`http://localhost:5000/api/todos/${id}`,{
-            headers: {
-                authorization: `Bearer ${validtoken}`
-            },
-        });
-        console.log("Todo deleted successfully", response);
-    }catch(err){
-        console.log("Error on depete todo.!", err);
+
+    try {
+      const validtoken = sessionStorage.getItem("token");
+      const response = await axios.delete(
+        `http://localhost:5000/api/todos/${id}`,
+        {
+          headers: {
+            authorization: `Bearer ${validtoken}`,
+          },
+        }
+      );
+      console.log("Todo deleted successfully", response);
+    } catch (err) {
+      console.log("Error on depete todo.!", err);
     }
     console.log("delete id", id);
     setTodos(deleteTodo);
@@ -109,7 +113,6 @@ const Task = () => {
     const fetchData = async () => {
       try {
         const validtoken = sessionStorage.getItem("token");
-        // console.log(validtoken, "sdfasdfasdfadf")
         const response = await axios.get("http://localhost:5000/api/todos/", {
           headers: {
             authorization: `Bearer ${validtoken}`,
@@ -130,7 +133,6 @@ const Task = () => {
   return (
     <div className="simple-todo-container">
       <Navbar />
-
       <div className="todo-content">
         <h1 className="todo-title">My Todo List</h1>
 

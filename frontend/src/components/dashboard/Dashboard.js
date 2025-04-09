@@ -1,12 +1,12 @@
 import React from "react";
-import Navbar from "../navbar/Navbar";
 import "./dashboard.css";
+import Navbar from "../navbar/Navbar";
 
 const Dashboard = () => {
   return (
     <>
+    <Navbar />
       <div className="dashboard">
-        <Navbar />
         <h1>Welcome to Taskmaster</h1>
       </div>
     </>

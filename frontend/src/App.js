@@ -6,6 +6,8 @@ import Dashbaord from "./components/dashboard/Dashboard";
 import Task from "./components/task/Task";
 import Calender from "./components/calender/Calender";
 import Register from "./components/register/Register";
+import User from "./components/user_profile/User";
+import Navbar from "./components/navbar/Navbar";
 
 function App() {
   return (
@@ -18,6 +20,7 @@ function App() {
           <Route path="/dashboard" exact element={<Dashbaord />} />
           <Route path="/mytask" element={<Task />} />
           <Route path="/calender" element={<Calender />} />
+          <Route path="/profile" element={<User />} />
         </Routes>
       </Router>
     </div>

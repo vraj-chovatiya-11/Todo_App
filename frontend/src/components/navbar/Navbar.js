@@ -50,8 +50,8 @@ const Navbar = () => {
               <div className="dropup">
                 <button className="dropbtn btn">Profile</button>
                 <div className="dropup-content">
-                  <a href="#">ViewProfile</a>
-                  <a href="#">EditProfile</a>
+                  <Link to="/profile">ViewProfile</Link>
+                  {/* <a href="#">EditProfile</a> */}
                   <a href="#" onClick={loggedOut}>Logout</a>
                 </div>
               </div>

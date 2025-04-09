@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 
 class User {
     static async findById(id){
-        console.log("object", id);
+        // console.log("object", id);
         try{
             const [rows] = await pool.query('SELECT * from test WHERE id = ?', [id]);
             return rows[0];

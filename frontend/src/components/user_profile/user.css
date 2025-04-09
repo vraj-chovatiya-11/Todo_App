@@ -1,0 +1,13 @@
+.user-profile-container {
+    min-height: 100vh;
+    background-color: #f3f4f6;
+    /* padding: 8rem 0; */
+}
+.user-profile{
+    background-color: white;
+    border-radius: 10px;
+    margin-top: 8rem !important;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}

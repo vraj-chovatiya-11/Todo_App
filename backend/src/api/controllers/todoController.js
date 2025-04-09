@@ -26,7 +26,7 @@ exports.getAllTodos = async (req, res) => {
   try {
     // console.log(req.user , "req user")
     const id = req.user;
-    console.log(id, "in controlller")
+    // console.log(id, "in controlller")
     // let todos;
 
     let todos = await Todo.getAllByUserId(id);
@@ -84,7 +84,7 @@ exports.deleteTodo = async (req, res) => {
     
     // console.log("what is delete id", deleted);
 
-    console.log("object");
+    // console.log("object");
   } catch (error) {
     console.log("Delete todo error.", error);
     res.status(500).json({ message: "Server error" });

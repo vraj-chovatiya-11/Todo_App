@@ -109,7 +109,7 @@ exports.login = async (req, res) => {
 
 exports.getCurrentUser = async (req, res) => {
   try {
-    console.log("-------------------------------");
+    // console.log("-------------------------------");
     const uId = req.user;
     const user = await User.findById(uId);
     if (!user) {
