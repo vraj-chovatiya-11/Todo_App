@@ -61,7 +61,7 @@ const Task = () => {
           }
         );
 
-        console.log("whati is response", response);
+        console.log("what is response", response);
       } catch (err) {
         console.log("Error on create new todo", err);
       }
@@ -78,8 +78,22 @@ const Task = () => {
     setEditId(id);
   };
 
-  const handleDelete = (id) => {
-    setTodos(todos.filter((todo) => todo.id !== id));
+  const handleDelete = async (id) => {
+    const deleteTodo = todos.filter((todo) => todo.id !== id);
+    
+    try{
+        const validtoken = sessionStorage.getItem("token");
+        const response = await axios.delete(`http://localhost:5000/api/todos/${id}`,{
+            headers: {
+                authorization: `Bearer ${validtoken}`
+            },
+        });
+        console.log("Todo deleted successfully", response);
+    }catch(err){
+        console.log("Error on depete todo.!", err);
+    }
+    console.log("delete id", id);
+    setTodos(deleteTodo);
   };
 
   const toggleComplete = (id) => {
@@ -94,7 +108,6 @@ const Task = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log("use effect is calling vraj ....");
         const validtoken = sessionStorage.getItem("token");
         // console.log(validtoken, "sdfasdfasdfadf")
         const response = await axios.get("http://localhost:5000/api/todos/", {
