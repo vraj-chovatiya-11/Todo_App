@@ -1,16 +1,62 @@
 import React, { useState } from "react";
 import "./login.css";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import toast, { Toaster } from "react-hot-toast";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
 
-  const handleSubmit = (e) => {
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Login attempt with:", { email, password, rememberMe });
-    // Add your authentication logic here
+
+    const userData = {
+      email,
+      password,
+    };
+
+    try {
+      const response = await toast.promise(
+        axios.post("http://localhost:5000/api/auth/login", userData),
+        {
+          loading: "Logging in...",
+          success: "Login successful!",
+          error: (err) => {
+            const message =
+              err.response?.data?.message ||
+              err.message ||
+              "Invalid email or password";
+            return `Login failed: ${message}`;
+          },
+        }
+      );
+
+      if(toast.promise == toast.success){
+        console.log("user logged in")
+      }
+      console.log("Login success:", response.data);
+
+      if (rememberMe) {
+        localStorage.setItem("token", response.data.Token);
+        localStorage.setItem("User", JSON.stringify(userData));
+      } else {
+        sessionStorage.setItem("token", response.data.Token);
+        sessionStorage.setItem("User", JSON.stringify(userData));
+      }
+
+
+      setTimeout(() => {
+        navigate("/dashboard"); 
+      }, 1500);
+    } catch (err) {
+      console.error("Login error:", err);
+    }
   };
 
   return (
@@ -22,7 +68,7 @@ const Login = () => {
           <h1 className="auth-title">Welcome back</h1>
           <p className="auth-subtitle">Sign in to access your tasks</p>
         </div>
-
+        <Toaster position="bottom-center" />
         <form className="auth-form" onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="email" className="form-label">

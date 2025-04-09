@@ -110,9 +110,8 @@ exports.login = async (req, res) => {
 exports.getCurrentUser = async (req, res) => {
   try {
     console.log("-------------------------------");
-    const uId = req.body.id;
+    const uId = req.user;
     const user = await User.findById(uId);
-    console.log("user found :", user);
     if (!user) {
       return res.status(404).json({ message: "User not found.!" });
     }

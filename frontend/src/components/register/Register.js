@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./register.css";
-import { Link } from "react-router-dom";
-import axios from 'axios';
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { configure } from "@testing-library/dom";
+import toast, { Toaster } from "react-hot-toast";
 
 const Register = () => {
   const [username, setUsername] = useState("");
@@ -10,25 +12,57 @@ const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [acceptTerms, setAcceptTerms] = useState(false);
 
-  const handleSubmit = (e) => {
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (password !== confirmPassword) {
-      alert("Passwords don't match");
+      toast.error("Passwords don't match");
       return;
     }
-    console.log("Registration attempt with:", {
+
+    const userData = {
       username,
       email,
       password,
-      acceptTerms,
-    });
+    };
 
-    // Add registration logic here
+    try {
+      const response = await toast.promise(
+        axios.post("http://localhost:5000/api/auth/register", userData),
+        {
+          loading: "Registering...",
+          success: "Registration successful!",
+          error: (err) => {
+            const message =
+              err.response?.data?.errors?.password ||
+              err.response?.data?.message ||
+              err.message ||
+              "Something went wrong";
+            return `Registration failed: ${message}`;
+          },
+        }
+      );
+      // Reset form
+      setUsername("");
+      setEmail("");
+      setPassword("");
+      setConfirmPassword("");
 
-    // useEffect(() => {
-    //     axios.post("http://localhost:5000/api/auth/register")
-    // })
-
+      console.log("Server response:", response.data);
+      setTimeout(() => {
+          navigate("/");
+      }, 2000);
+    } catch (err) {
+      if (err.response) {
+        console.log("Server responded with error:", err.response.data);
+      } else if (err.request) {
+        console.log("No response received:", err.request);
+      } else {
+        console.log("Error setting up request:", err.message);
+      }
+    }
   };
 
   return (
@@ -40,7 +74,7 @@ const Register = () => {
           <h1 className="auth-title">Create an account</h1>
           <p className="auth-subtitle">Start managing your tasks effectively</p>
         </div>
-
+        <Toaster position="bottom-center" />
         <form className="auth-form" onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="name" className="form-label">

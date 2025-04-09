@@ -5,11 +5,13 @@ const authController = require('../controllers/authController');
 const auth = require('../../utils/auth');
 const { upload } = require('../../middleware/upload');
 
+// router.use(auth);
+
 router.post('/register', upload, authController.register);
 
 router.post('/login', authController.login);
 
-router.get('/me', authController.getCurrentUser);
+router.get('/me', auth, authController.getCurrentUser);
 
 router.delete('/delete/:id', authController.deleteUser);
 

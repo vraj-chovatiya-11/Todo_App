@@ -4,6 +4,7 @@
 /* Header Container */
 .header {
     /* background: linear-gradient(to right, #4f46e5, #9333ea); */
+    background: white;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
   
@@ -52,7 +53,6 @@
     font-weight: 400;
     font-style: normal;
     padding: 0.6rem 1.2rem;
-    gap: 20;
     cursor: pointer;
     background-color: white;
     border: 1px solid grey;
@@ -122,12 +122,64 @@
     align-items: center;
     justify-content: center;
     color: black;
-    border: 2px solid red;
+    border: 1px solid rgb(158, 158, 158);
     padding: 1.2rem;
     border-radius: 50%;
     font-weight: 600;
   }
+
+  /* dropdown profile */
+
+  .logout-btn {
+    border: none !important;
+    color: red;
+    font-size: 1rem;
+  }
+
+  .logout-btn:hover{
+    background-color: red;
+    color: white;
+  }
+  .dropbtn {
+    background-color: tomato;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+  }
   
+  .dropup {
+    position: relative;
+    display: inline-block;
+  }
+
+  .dropup-content {
+    margin-top: 0.1rem;
+    display: none;
+    position: absolute;
+    /* top: 45px; */
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+
+  .dropup-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+
+  .dropup-content a:hover {background-color: tomato}
+
+  .dropup:hover .dropup-content {
+    display: block;
+  }
+
+  .dropup:hover .dropbtn {
+    background-color: tomato;
+  }
+
   .menu-btn {
     display: block;
     padding: 8px;

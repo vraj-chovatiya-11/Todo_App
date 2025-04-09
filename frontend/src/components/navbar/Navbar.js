@@ -5,9 +5,18 @@ import "./navbar.css";
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  const navigate = useNavigate();
+
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
+  const loggedOut = () => {
+    localStorage.clear();
+    sessionStorage.clear();
+    console.log("User Logged Out");
+    navigate('/');
+  }
 
   return (
     <>
@@ -20,7 +29,7 @@ const Navbar = () => {
             </div>
 
             <nav className="desktop-nav">
-              <Link to="/" className="nav-link">
+              <Link to="/dashboard" className="nav-link">
                 Dashboard
               </Link>
               <Link to="/mytask" className="nav-link">
@@ -33,12 +42,19 @@ const Navbar = () => {
 
             <div className="profile-section">
               <Link to="/login">
-                <button className="login-btn btn">Login</button>
+                {/* <button className="logout-btn btn">LogOut</button> */}
               </Link>
               <Link to="/register">
-                <button className="register-btn btn">Register</button>
+                {/* <button className="register-btn btn">Register</button> */}
               </Link>
-              {/* <div className="avatar">VB</div> */}
+              <div className="dropup">
+                <button className="dropbtn btn">Profile</button>
+                <div className="dropup-content">
+                  <a href="#">ViewProfile</a>
+                  <a href="#">EditProfile</a>
+                  <a href="#" onClick={loggedOut}>Logout</a>
+                </div>
+              </div>
             </div>
 
             <button onClick={toggleMenu} className="menu-btn">
