@@ -121,7 +121,7 @@ exports.getCurrentUser = async (req, res) => {
 
 exports.deleteUser = async (req, res) => {
   try {
-    const userId = req.params.id;
+    const userId = req.user;
     const userFound = await User.findById(userId);
 
     if (!userFound) {

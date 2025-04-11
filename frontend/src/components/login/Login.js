@@ -4,11 +4,14 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
+import { Eye } from "lucide-react";
+import { EyeOff } from "lucide-react";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
 
@@ -26,7 +29,7 @@ const Login = () => {
         axios.post("http://localhost:5000/api/auth/login", userData),
         {
           loading: "Logging in...",
-          success: "Login successful!",
+          success: "Login successful...",
           error: (err) => {
             const message =
               err.response?.data?.message ||
@@ -37,8 +40,8 @@ const Login = () => {
         }
       );
 
-      if(toast.promise == toast.success){
-        console.log("user logged in")
+      if (toast.promise == toast.success) {
+        console.log("user logged in");
       }
       console.log("Login success:", response.data);
 
@@ -50,9 +53,8 @@ const Login = () => {
         sessionStorage.setItem("User", JSON.stringify(userData));
       }
 
-
       setTimeout(() => {
-        navigate("/dashboard"); 
+        navigate("/dashboard");
       }, 1500);
     } catch (err) {
       console.error("Login error:", err);
@@ -94,15 +96,24 @@ const Login = () => {
                 Forgot password?
               </a>
             </div>
-            <input
-              type="password"
-              id="password"
-              className="form-input"
-              placeholder="••••••••"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
+            <div className="password-wrapper">
+              <input
+                type={showPassword ? "text" : "password"}
+                id="password"
+                className="form-input"
+                placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              <button
+                type="button"
+                className="toggle-btn"
+                onClick={() => setShowPassword((prev) => !prev)}
+              >
+                {showPassword ? <Eye /> : <EyeOff />}
+              </button>
+            </div>
           </div>
 
           <div className="form-checkbox-group">

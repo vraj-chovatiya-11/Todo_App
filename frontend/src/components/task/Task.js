@@ -7,6 +7,8 @@ const Task = () => {
   const [todos, setTodos] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [editId, setEditId] = useState(null);
+  const [toggle, setToggle] = useState(false);
+  const [editDescription, setEditDescription] = useState("");
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
@@ -25,6 +27,7 @@ const Task = () => {
       );
 
       const updatedData = { description: inputValue };
+
       try {
         const validtoken = sessionStorage.getItem("token");
         const response = await axios.put(
@@ -39,7 +42,6 @@ const Task = () => {
       } catch (err) {
         console.log("Error on update todo", err);
       }
-      console.log("this is update id", editId);
 
       setTodos(updateTodo);
       setEditId(null);
@@ -80,6 +82,11 @@ const Task = () => {
   };
 
   const handleDelete = async (id) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this todo?"
+    );
+    if (!confirmDelete) return;
+
     const deleteTodo = todos.filter((todo) => todo.id !== id);
 
     try {
@@ -100,13 +107,36 @@ const Task = () => {
     setTodos(deleteTodo);
   };
 
-  const toggleComplete = (id) => {
-    console.log(todos.completed, "break");
-    setTodos(
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, completed: !todo.completed } : todo
-      )
-    );
+  const toggleComplete = async (id) => {
+    try {
+      const validToken = sessionStorage.getItem("token");
+
+      // Get the current todo's completed state
+      const currentTodo = todos.find((todo) => todo.id === id);
+      const newCompletedState = !currentTodo.completed;
+
+      // Update backend
+      await axios.put(
+        `http://localhost:5000/api/todos/${id}`,
+        {
+          description: currentTodo.description,
+          completed: newCompletedState ? 1 : 0,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${validToken}`,
+          },
+        }
+      );
+
+      // Update local state
+      const updatedTodos = todos.map((todo) =>
+        todo.id === id ? { ...todo, completed: newCompletedState } : todo
+      );
+      setTodos(updatedTodos);
+    } catch (err) {
+      console.error("Error in toggleComplete:", err);
+    }
   };
 
   useEffect(() => {
@@ -120,6 +150,14 @@ const Task = () => {
         });
         const data = response.data;
         setTodos(data);
+
+        // Log each todo with its completion status
+        // data.forEach((todo) => {
+        //   console.log(
+        //     `Todo: ${todo.id}, Description: ${todo.description}, Completed: ${todo.completed}`
+        //   );
+        // });
+
         const dataa = response.data?.description;
         console.log(data);
       } catch (err) {
@@ -165,6 +203,8 @@ const Task = () => {
                     checked={todo.completed}
                     onChange={() => toggleComplete(todo.id)}
                   />
+                  <span className="todo-text">{todo.title}</span>
+                  <br></br>
                   <span className="todo-text">{todo.description}</span>
                 </div>
                 <div className="todo-actions">

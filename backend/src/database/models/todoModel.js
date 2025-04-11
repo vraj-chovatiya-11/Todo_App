@@ -16,11 +16,11 @@ class Todo {
     }
   }
 
-  static async create(userId, description) {
+  static async create(userId, title, description) {
     try {
       const [result] = await pool.query(
-        "INSERT INTO todos (user_id, description) VALUES (?, ?)",
-        [userId, description]
+        "INSERT INTO todos (user_id, title, description) VALUES (?, ?, ?)",
+        [userId, title, description]
       );
       return result.insertId;
     } catch (error) {
@@ -78,12 +78,14 @@ class Todo {
     }
   }
 
-  static async updateTodo({ todoId, description, userId }) {
+  static async updateTodo({ todoId, description, userId, completed }) {
     try {
+      console.log("", completed);
       const [result] = await pool.query(
-        "UPDATE todos set description = ? where id = ? and user_id = ?",
-        [description, todoId, userId]
+        "UPDATE todos set description = ?, completed = ? where id = ? and user_id = ?",
+        [description, completed, todoId, userId]
       );
+
       if (result.affectedRows === 0) {
         throw new Error("Todo not found or not authorized to update");
       }

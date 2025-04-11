@@ -11,3 +11,25 @@
     margin: 0 auto;
     padding: 40px 20px;
 }
+
+.p-btn{
+    padding: .8rem 1rem;
+    border-radius: 10px;
+    cursor: pointer;
+    color: white;
+    border: none;
+    font-size: 0.9rem;
+}
+
+.profile-btn{
+    display: flex;
+    justify-content: space-between;
+}
+
+.delete-btn {
+    background-color: rgb(252, 74, 74);
+}
+
+.edit-btn{
+    background-color: rgb(5, 99, 177);
+}

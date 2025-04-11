@@ -74,6 +74,12 @@
     font-weight: 500;
     color: #374151;
   }
+
+  .password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
   
   .forgot-password {
     font-size: 14px;
@@ -86,6 +92,8 @@
   }
   
   .form-input {
+    width: 100%;
+    padding-right: 40px; /* Space for the eye button */
     padding: 10px 14px;
     border: 1px solid #d1d5db;
     border-radius: 6px;
@@ -93,6 +101,17 @@
     transition: border-color 0.2s ease;
   }
   
+  .password-wrapper .toggle-btn {
+    position: absolute;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    color: #6b7280;
+    margin-top: 5px;
+  }
+
   .form-input:focus {
     border-color: #4f46e5;
     outline: none;

@@ -8,6 +8,7 @@ import Calender from "./components/calender/Calender";
 import Register from "./components/register/Register";
 import User from "./components/user_profile/User";
 import Navbar from "./components/navbar/Navbar";
+import PrivateRoute from "./components/privateRoute/PrivateRoute";
 
 function App() {
   return (
@@ -17,10 +18,39 @@ function App() {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/dashboard" exact element={<Dashbaord />} />
-          <Route path="/mytask" element={<Task />} />
-          <Route path="/calender" element={<Calender />} />
-          <Route path="/profile" element={<User />} />
+          <Route
+            path="/dashboard"
+            exact
+            element={
+              <PrivateRoute>
+                <Dashbaord />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/mytask"
+            element={
+              <PrivateRoute>
+                <Task />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/calender"
+            element={
+              <PrivateRoute>
+                <Calender />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <PrivateRoute>
+                <User />
+              </PrivateRoute>
+            }
+          />
         </Routes>
       </Router>
     </div>

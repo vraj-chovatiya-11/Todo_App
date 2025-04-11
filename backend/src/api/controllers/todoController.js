@@ -2,12 +2,13 @@ const { Todo } = require("../../database/models/todoModel");
 
 exports.createTodo = async (req, res) => {
   try {
+    const {title} = req.body;
     const {description} = req.body;
     const userId = req.user;
 
     // create todo
 
-    const todoId = await Todo.create(userId, description);
+    const todoId = await Todo.create(userId, title, description);
 
     if (typeof todoId === "number") {
       res.status(201).json({ message: "Todo created successfully" });
@@ -65,10 +66,10 @@ exports.updateTodo = async (req, res) => {
   try{
   const todoId = req.params.id;
   const description = req.body.description;
-  
+  const completed = req.body.completed;
   const userId = req.user;
 
-  const updatedTodo = await Todo.updateTodo({todoId, description, userId});
+  const updatedTodo = await Todo.updateTodo({todoId, description, completed, userId});
   
   if(updatedTodo.affectedRows > 0){
       return res.status(200).json({message: 'Todo updated successfully'});

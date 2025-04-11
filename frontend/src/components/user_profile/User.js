@@ -4,37 +4,48 @@ import "./user.css";
 import axios from "axios";
 import Navbar from "../navbar/Navbar";
 
-
 const User = () => {
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const dateOnly = new Date(userData?.created_at).toLocaleDateString("en-GB");
+
+  const handleDelete = (e) => {
+    e.preventDefault();
+    console.log(e);
+    alert("hkwkd");
+    // window.confirm("Are you sure..?");
+  };
+
+  const userId = userData?.id;
+
+  const fetchUserData = async () => {
+    try {
+      const validtoken = sessionStorage.getItem("token");
+      const response = await axios.get("http://localhost:5000/api/auth/me/", {
+        headers: {
+          authorization: `Bearer ${validtoken}`,
+        },
+      });
+
+      const data = await response.data;
+      console.log("current date", dateOnly);
+
+      setUserData(data);
+      setLoading(false);
+    } catch (err) {
+      setError(err.message);
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const validtoken = sessionStorage.getItem("token");
-        const response = await axios.get("http://localhost:5000/api/auth/me/", {
-          headers: {
-            authorization: `Bearer ${validtoken}`,
-          },
-        });
-        
-        // console.log("this is response", response.data);
-        const data = await response.data;
-
-        // console.log(data.username);
-        setUserData(data);
-        setLoading(false);
-      } catch (err) {
-        setError(err.message);
-        setLoading(false);
-      }
-    };
-
     fetchUserData();
+    return () => window.removeEventListener("click", handleDelete);
   }, []);
 
+  console.log(userData?.created_at);
+  console.log("object")
   if (loading) {
     return (
       <div className="user-profile-container">
@@ -94,22 +105,6 @@ const User = () => {
               />
             </div>
 
-            {/* <div className="form-group">
-              <div className="password-header">
-                <label htmlFor="password" className="form-label">
-                  Password
-                </label>
-              </div>
-              <input
-                type="password"
-                id="password"
-                className="form-input"
-                placeholder="••••••••"
-                value={userData?.password || ""}
-                readOnly
-              />
-            </div> */}
-
             <div className="form-group">
               <div className="password-header">
                 <label htmlFor="password" className="form-label">
@@ -120,9 +115,18 @@ const User = () => {
                 type="text"
                 id="text"
                 className="form-input"
-                value={userData?.created_at || ""}
+                value={dateOnly || ""}
                 readOnly
               />
+            </div>
+            <div className="profile-btn">
+              <button className="p-btn edit-btn">Edit Profile</button>
+              <button
+                className="delete-btn p-btn"
+                onClick={() => handleDelete()}
+              >
+                Delete Account
+              </button>
             </div>
           </form>
         </div>

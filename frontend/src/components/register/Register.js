@@ -3,7 +3,10 @@ import "./register.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { configure } from "@testing-library/dom";
+import { FaEye } from "react-icons/fa";
 import toast, { Toaster } from "react-hot-toast";
+import { Eye } from "lucide-react";
+import { EyeOff } from "lucide-react";
 
 const Register = () => {
   const [username, setUsername] = useState("");
@@ -11,6 +14,8 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [acceptTerms, setAcceptTerms] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfPassword, setShowConfPassword] = useState(false);
 
   const navigate = useNavigate();
 
@@ -52,7 +57,7 @@ const Register = () => {
 
       console.log("Server response:", response.data);
       setTimeout(() => {
-          navigate("/");
+        navigate("/");
       }, 2000);
     } catch (err) {
       if (err.response) {
@@ -110,30 +115,48 @@ const Register = () => {
             <label htmlFor="password" className="form-label">
               Password
             </label>
-            <input
-              type="password"
-              id="password"
-              className="form-input"
-              placeholder="••••••••"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
+            <div className="password-wrapper">
+              <input
+                type={showPassword ? "text" : "password"}
+                id="password"
+                className="form-input"
+                placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              <button
+                type="button"
+                className="toggle-btn"
+                onClick={() => setShowPassword((prev) => !prev)}
+              >
+                {showPassword ? <Eye /> : <EyeOff />}
+              </button>
+            </div>
           </div>
 
           <div className="form-group">
             <label htmlFor="confirmPassword" className="form-label">
               Confirm Password
             </label>
-            <input
-              type="password"
-              id="confirmPassword"
-              className="form-input"
-              placeholder="••••••••"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              required
-            />
+            <div className="password-wrapper">
+              <input
+                type={showConfPassword ? "text" : "password"}
+                id="confirmPassword"
+                className="form-input"
+                placeholder="••••••••"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
+              />
+              <button
+                type="button"
+                className="toggle-btn"
+                onClick={() => setShowConfPassword((prev) => !prev)}
+              >
+                {showConfPassword ? <Eye /> : <EyeOff />}
+              </button>
+            </div>
           </div>
 
           {/* <div className="form-checkbox-group">

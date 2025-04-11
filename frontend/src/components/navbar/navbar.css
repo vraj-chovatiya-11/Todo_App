@@ -6,6 +6,11 @@
     /* background: linear-gradient(to right, #4f46e5, #9333ea); */
     background: white;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* position: fixed; */
+    /* top: 0; */
+    /* border: 2px solid red; */
+    /* width: 100%; */
+    /* margin: 0 auto; */
   }
   
   .header-container {
