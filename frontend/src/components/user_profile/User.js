@@ -1,5 +1,7 @@
 // UserProfile.jsx
 import React, { useState, useEffect } from "react";
+import toast, { Toaster } from "react-hot-toast";
+import { Link, useNavigate } from "react-router-dom";
 import "./user.css";
 import axios from "axios";
 import Navbar from "../navbar/Navbar";
@@ -10,14 +12,47 @@ const User = () => {
   const [error, setError] = useState(null);
   const dateOnly = new Date(userData?.created_at).toLocaleDateString("en-GB");
 
-  const handleDelete = (e) => {
-    e.preventDefault();
-    console.log(e);
-    alert("hkwkd");
-    // window.confirm("Are you sure..?");
-  };
-
+  const navigate = useNavigate();
   const userId = userData?.id;
+  console.log(userId);
+
+  const handleDelete = async (e, id) => {
+    e.preventDefault();
+
+    const confirmDelete = window.confirm(
+      "Are you sure you want to Delete Account.?"
+    );
+    if (!confirmDelete) return;
+
+    try {
+      const validtoken = sessionStorage.getItem("token");
+      const response = await toast.promise(
+        axios.delete(`http://localhost:5000/api/auth/${id}`, {
+          headers: {
+            authorization: `Bearer ${validtoken}`,
+          },
+        }),
+        {
+          loading: "Deleting...",
+          success: "User Deleted Successfully...",
+          error: (err) => {
+            const message =
+              err.response?.data?.message ||
+              err.message ||
+              "Something went wrong";
+            return `Delete user failed: ${message}`;
+          },
+        }
+      );
+
+      console.log("User Deleted Successfully...");
+      setTimeout(() => {
+        navigate("/");
+      }, 1500);
+    } catch (err) {
+      console.log("Error on depete todo.!", err);
+    }
+  };
 
   const fetchUserData = async () => {
     try {
@@ -44,8 +79,8 @@ const User = () => {
     return () => window.removeEventListener("click", handleDelete);
   }, []);
 
-  console.log(userData?.created_at);
-  console.log("object")
+  // console.log(userData?.created_at);
+  // console.log("object")
   if (loading) {
     return (
       <div className="user-profile-container">
@@ -69,6 +104,7 @@ const User = () => {
   return (
     <div className="user-profile-container">
       <Navbar />
+      <Toaster position="bottom-center" />
       <div className="user-profile">
         <div className="user-profile-card">
           <div className="auth-header">
@@ -121,10 +157,7 @@ const User = () => {
             </div>
             <div className="profile-btn">
               <button className="p-btn edit-btn">Edit Profile</button>
-              <button
-                className="delete-btn p-btn"
-                onClick={() => handleDelete()}
-              >
+              <button className="delete-btn p-btn" onClick={handleDelete}>
                 Delete Account
               </button>
             </div>

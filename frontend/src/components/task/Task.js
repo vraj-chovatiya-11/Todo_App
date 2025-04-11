@@ -103,7 +103,6 @@ const Task = () => {
     } catch (err) {
       console.log("Error on depete todo.!", err);
     }
-    console.log("delete id", id);
     setTodos(deleteTodo);
   };
 
