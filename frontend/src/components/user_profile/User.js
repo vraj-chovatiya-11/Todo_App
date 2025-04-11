@@ -54,6 +54,11 @@ const User = () => {
     }
   };
 
+  const handleEdit = (e) => {
+    e.preventDefault();
+    alert("handle Edit button");
+  }
+
   const fetchUserData = async () => {
     try {
       const validtoken = sessionStorage.getItem("token");
@@ -156,7 +161,7 @@ const User = () => {
               />
             </div>
             <div className="profile-btn">
-              <button className="p-btn edit-btn">Edit Profile</button>
+              <button className="p-btn edit-btn"  onClick={handleEdit}>Edit Profile</button>
               <button className="delete-btn p-btn" onClick={handleDelete}>
                 Delete Account
               </button>

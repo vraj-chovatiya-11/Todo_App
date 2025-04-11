@@ -11,7 +11,10 @@ router.post('/register', upload, authController.register);
 
 router.post('/login', authController.login);
 
+router.put('/', auth, authController.updateProfile);
+
 router.get('/me', auth, authController.getCurrentUser);
+
 router.delete('/:id', auth, authController.deleteUser);
 
 // router.delete('/delete/:id', authController.deleteUser);

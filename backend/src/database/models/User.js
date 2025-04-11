@@ -63,10 +63,13 @@ class User {
     }
 
     static async update(user){
+        console.log("what user", user);
         try{
-            const [result] = await pool.query('UPDATE users SET username = ?, email = ? WHERE id = ?', [user.username, user.email, user.id]);
+            console.log("inside try")
+            const [result] = await pool.query('UPDATE test SET username = ?, email = ? WHERE id = ?', [user.username, user.email, user.userId]);
             return result.affectedRows;       
         }catch(error){
+            console.log("db error");
             throw new Error(error);
         }
     }
