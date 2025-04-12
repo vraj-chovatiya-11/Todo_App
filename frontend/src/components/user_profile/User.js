@@ -1,7 +1,7 @@
 // UserProfile.jsx
 import React, { useState, useEffect } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./user.css";
 import axios from "axios";
 import Navbar from "../navbar/Navbar";
@@ -10,11 +10,10 @@ const User = () => {
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
   const dateOnly = new Date(userData?.created_at).toLocaleDateString("en-GB");
 
   const navigate = useNavigate();
-  const userId = userData?.id;
-  console.log(userId);
 
   const handleDelete = async (e, id) => {
     e.preventDefault();
@@ -27,7 +26,7 @@ const User = () => {
     try {
       const validtoken = sessionStorage.getItem("token");
       const response = await toast.promise(
-        axios.delete(`http://localhost:5000/api/auth/${id}`, {
+        axios.delete(`${process.env.REACT_APP_BACKEND_API}/auth/${id}`, {
           headers: {
             authorization: `Bearer ${validtoken}`,
           },
@@ -54,15 +53,49 @@ const User = () => {
     }
   };
 
-  const handleEdit = (e) => {
+  const handleEdit = async (e) => {
     e.preventDefault();
-    alert("handle Edit button");
-  }
+
+    if (!isEditing) {
+      // Switch to edit mode
+      setIsEditing(true);
+      toast('Now you can Edit.!', {
+        icon: '👏',
+      });
+    } else {
+      try {
+        const token = sessionStorage.getItem("token");
+      
+        const response = await axios.put(
+          `${process.env.REACT_APP_BACKEND_API}/auth/`,
+          userData,
+          {
+            headers: {
+              authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log(response,"response");
+        alert("Profile updated successfully!");
+        setIsEditing(false); // back to view mode
+      } catch (err) {
+        console.log("failed to update profile");
+      } 
+    }
+  };
+
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setUserData((prev) => ({
+      ...prev,
+      [id]: value,
+    }));
+  };
 
   const fetchUserData = async () => {
     try {
       const validtoken = sessionStorage.getItem("token");
-      const response = await axios.get("http://localhost:5000/api/auth/me/", {
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_API}/auth/me/`, {
         headers: {
           authorization: `Bearer ${validtoken}`,
         },
@@ -129,7 +162,8 @@ const User = () => {
                 className="form-input"
                 placeholder="John123"
                 value={userData?.username || ""}
-                readOnly
+                readOnly={!isEditing}
+                onChange={handleChange}
               />
             </div>
             <div className="form-group">
@@ -142,7 +176,8 @@ const User = () => {
                 className="form-input"
                 placeholder="name@example.com"
                 value={userData?.email || ""}
-                readOnly
+                readOnly={!isEditing}
+                onChange={handleChange}
               />
             </div>
 
@@ -161,7 +196,9 @@ const User = () => {
               />
             </div>
             <div className="profile-btn">
-              <button className="p-btn edit-btn"  onClick={handleEdit}>Edit Profile</button>
+              <button className="p-btn edit-btn" onClick={handleEdit}>
+                {isEditing ? "Update Profile" : "Edit Profile"}
+              </button>
               <button className="delete-btn p-btn" onClick={handleDelete}>
                 Delete Account
               </button>

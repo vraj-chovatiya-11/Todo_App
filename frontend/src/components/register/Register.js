@@ -35,7 +35,7 @@ const Register = () => {
 
     try {
       const response = await toast.promise(
-        axios.post("http://localhost:5000/api/auth/register", userData),
+        axios.post(`${process.env.REACT_APP_BACKEND_API}/auth/register`, userData),
         {
           loading: "Registering...",
           success: "Registration successful!",

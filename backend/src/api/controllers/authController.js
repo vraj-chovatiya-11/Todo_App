@@ -148,9 +148,13 @@ exports.updateProfile = async (req, res) => {
     const username = req.body.username;
     const email = req.body.email;
 
-    const updateUser = await User.update({userId, username, email});
+    const user = await User.findByEmail(email);
 
-    console.log(updateUser);
+    if(user){
+      return res.status(451).json({message: "Duplicate Entry..."});
+    }
+    
+    const updateUser = await User.update({userId, username, email});
 
     if(updateUser > 0){
       return res.status(200).json({message: "User update successfully..."});

@@ -80,7 +80,6 @@ class Todo {
 
   static async updateTodo({ todoId, description, userId, completed }) {
     try {
-      console.log("", completed);
       const [result] = await pool.query(
         "UPDATE todos set description = ?, completed = ? where id = ? and user_id = ?",
         [description, completed, todoId, userId]
@@ -91,7 +90,8 @@ class Todo {
       }
       return result;
     } catch (err) {
-      throw new Error(err);
+      console.log("Error Todo not found..!");
+      return false;  
     }
   }
 }

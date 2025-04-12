@@ -31,7 +31,7 @@ const Task = () => {
       try {
         const validtoken = sessionStorage.getItem("token");
         const response = await axios.put(
-          `http://localhost:5000/api/todos/${editId}`,
+          `${process.env.REACT_APP_BACKEND_API}/todos/${editId}`,
           updatedData,
           {
             headers: {
@@ -55,7 +55,7 @@ const Task = () => {
       try {
         const validtoken = sessionStorage.getItem("token");
         const response = await axios.post(
-          "http://localhost:5000/api/todos/",
+          `${process.env.REACT_APP_BACKEND_API}/todos/`,
           newTodo,
           {
             headers: {
@@ -92,7 +92,7 @@ const Task = () => {
     try {
       const validtoken = sessionStorage.getItem("token");
       const response = await axios.delete(
-        `http://localhost:5000/api/todos/${id}`,
+        `${process.env.REACT_APP_BACKEND_API}/todos/${id}`,
         {
           headers: {
             authorization: `Bearer ${validtoken}`,
@@ -116,7 +116,7 @@ const Task = () => {
 
       // Update backend
       await axios.put(
-        `http://localhost:5000/api/todos/${id}`,
+        `${process.env.REACT_APP_BACKEND_API}/todos/${id}`,
         {
           description: currentTodo.description,
           completed: newCompletedState ? 1 : 0,
@@ -142,11 +142,14 @@ const Task = () => {
     const fetchData = async () => {
       try {
         const validtoken = sessionStorage.getItem("token");
-        const response = await axios.get("http://localhost:5000/api/todos/", {
-          headers: {
-            authorization: `Bearer ${validtoken}`,
-          },
-        });
+        const response = await axios.get(
+          `${process.env.REACT_APP_BACKEND_API}/todos/`,
+          {
+            headers: {
+              authorization: `Bearer ${validtoken}`,
+            },
+          }
+        );
         const data = response.data;
         setTodos(data);
 
@@ -196,12 +199,14 @@ const Task = () => {
                 className={`todo-item ${todo.completed ? "completed" : ""}`}
               >
                 <div className="todo-item-content">
-                  <input
-                    type="checkbox"
-                    className="todo-checkbox"
-                    checked={todo.completed}
-                    onChange={() => toggleComplete(todo.id)}
-                  />
+                  <div>
+                    <input
+                      type="checkbox"
+                      className="todo-checkbox"
+                      checked={todo.completed}
+                      onChange={() => toggleComplete(todo.id)}
+                    />
+                  </div>
                   <span className="todo-text">{todo.title}</span>
                   <br></br>
                   <span className="todo-text">{todo.description}</span>

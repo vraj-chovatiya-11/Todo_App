@@ -26,7 +26,7 @@ const Login = () => {
 
     try {
       const response = await toast.promise(
-        axios.post("http://localhost:5000/api/auth/login", userData),
+        axios.post(`${process.env.REACT_APP_BACKEND_API}/auth/login`, userData),
         {
           loading: "Logging in...",
           success: "Login successful...",
