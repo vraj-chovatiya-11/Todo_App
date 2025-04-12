@@ -9,6 +9,7 @@ import Register from "./components/register/Register";
 import User from "./components/user_profile/User";
 import Navbar from "./components/navbar/Navbar";
 import PrivateRoute from "./components/privateRoute/PrivateRoute";
+import AddTask from "./components/task/AddTask";
 
 function App() {
   return (
@@ -48,6 +49,14 @@ function App() {
             element={
               <PrivateRoute>
                 <User />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/addtask"
+            element={
+              <PrivateRoute>
+                <AddTask />
               </PrivateRoute>
             }
           />

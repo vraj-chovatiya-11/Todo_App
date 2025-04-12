@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./task.css";
-import axios from "axios";
 import Navbar from "../navbar/Navbar";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
 
 const Task = () => {
   const [todos, setTodos] = useState([]);
@@ -9,6 +11,12 @@ const Task = () => {
   const [editId, setEditId] = useState(null);
   const [toggle, setToggle] = useState(false);
   const [editDescription, setEditDescription] = useState("");
+
+  const navigate = useNavigate();
+
+  const handleAddTask = () => {
+    navigate('/addtask');
+  }
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
@@ -177,15 +185,18 @@ const Task = () => {
         <h1 className="todo-title">My Todo List</h1>
 
         <form className="todo-form" onSubmit={handleSubmit}>
-          <input
+          {/* <input
             type="text"
             className="todo-input"
             placeholder="What needs to be done?"
             value={inputValue}
             onChange={handleInputChange}
-          />
-          <button type="submit" className="todo-button submit-button">
+          /> */}
+          {/* <button type="submit" className="todo-button submit-button">
             {editId !== null ? "Update" : "Add"}
+          </button> */}
+          <button className="todo-button submit-button" onClick={handleAddTask}>
+            AddTask
           </button>
         </form>
 
