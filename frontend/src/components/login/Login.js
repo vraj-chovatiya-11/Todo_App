@@ -54,7 +54,7 @@ const Login = () => {
       }
 
       setTimeout(() => {
-        navigate("/dashboard");
+        navigate("/mytask");
       }, 1500);
     } catch (err) {
       console.error("Login error:", err);

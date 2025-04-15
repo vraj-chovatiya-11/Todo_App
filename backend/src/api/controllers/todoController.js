@@ -37,6 +37,15 @@ exports.getAllTodos = async (req, res) => {
 };
 
 
+// exports.countTodos = async (req, res) => {
+//   try{
+//     const id = req.user;
+
+//   }catch(error){
+//     console.log("Error on count todos", error);
+//   }
+// }
+
 exports.deleteTodo = async (req, res) => {
   try {
     const TodoId = req.params.id;   
@@ -56,7 +65,7 @@ exports.deleteTodo = async (req, res) => {
     }
 
   } catch (error) {
-    console.log("Delete todo error.", error);
+    console.log("Delete todo error.");
     res.status(500).json({ message: "Server error" });
   }
 };

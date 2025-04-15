@@ -61,6 +61,20 @@
   background-color: rgb(252, 73, 42);
 }
 
+.add-task{
+  padding: 10px 20px;
+}
+
+.view-todo{
+  background-color: #374151;
+  margin-left: 20px;
+  border-radius: 8px 8px;
+}
+
+.view-todo:hover{
+  background-color: #1f242c;
+}
+
 /* Todo list styles */
 .todo-list {
   max-height: 70vh;

@@ -1,68 +1,37 @@
 import "./App.css";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
 import Login from "./components/login/Login";
-// import Navbar from "./components/navbar/Navbar";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Dashbaord from "./components/dashboard/Dashboard";
+import Register from "./components/register/Register";
+import Dashboard from "./components/dashboard/Dashboard";
 import Task from "./components/task/Task";
 import Calender from "./components/calender/Calender";
-import Register from "./components/register/Register";
 import User from "./components/user_profile/User";
-import Navbar from "./components/navbar/Navbar";
-import PrivateRoute from "./components/privateRoute/PrivateRoute";
 import AddTask from "./components/task/AddTask";
+
+import PublicLayout from "./components/privateRoute/PublicRoute";
+import PrivateLayout from "./components/privateRoute/PrivateRoute";
 
 function App() {
   return (
-    <div>
-      <Router>
-        {/* <Navbar /> */}
-        <Routes>
+    <Router>
+      <Routes>
+        {/* Public routes */}
+        <Route element={<PublicLayout />}>
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route
-            path="/dashboard"
-            exact
-            element={
-              <PrivateRoute>
-                <Dashbaord />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/mytask"
-            element={
-              <PrivateRoute>
-                <Task />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/calender"
-            element={
-              <PrivateRoute>
-                <Calender />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/profile"
-            element={
-              <PrivateRoute>
-                <User />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/addtask"
-            element={
-              <PrivateRoute>
-                <AddTask />
-              </PrivateRoute>
-            }
-          />
-        </Routes>
-      </Router>
-    </div>
+        </Route>
+
+        {/* Private routes */}
+        <Route element={<PrivateLayout />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/mytask" element={<Task />} />
+          <Route path="/calender" element={<Calender />} />
+          <Route path="/profile" element={<User />} />
+          <Route path="/addtask" element={<AddTask />} />
+        </Route>
+      </Routes>
+    </Router>
   );
 }
 

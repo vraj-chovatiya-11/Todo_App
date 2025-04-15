@@ -25,7 +25,6 @@ const AddTask = () => {
 
     if (editId !== null) {
       // Update existing todo
-
       const updateTodo = todos.map((todo) =>
         todo.id === editId ? { ...todo, description: inputValue } : todo
       );
@@ -100,7 +99,7 @@ const AddTask = () => {
               {editId !== null ? "Update" : "Add"}
             </button>
             <button
-              className="todo-button submit-button"
+              className="todo-button submit-button view-todo"
               onClick={handleViewTask}
             >
               ViewTodos

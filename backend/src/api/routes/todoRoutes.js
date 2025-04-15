@@ -9,5 +9,6 @@ routes.post('/', todoController.createTodo);
 routes.get('/', todoController.getAllTodos);
 routes.delete('/:id', todoController.deleteTodo);
 routes.put('/:id', todoController.updateTodo);
+// routes.get('/', todoController.countTodos);
 
 module.exports = routes;

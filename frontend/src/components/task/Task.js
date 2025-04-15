@@ -3,7 +3,7 @@ import "./task.css";
 import Navbar from "../navbar/Navbar";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
+import Swal from "sweetalert2";
 
 const Task = () => {
   const [todos, setTodos] = useState([]);
@@ -15,8 +15,8 @@ const Task = () => {
   const navigate = useNavigate();
 
   const handleAddTask = () => {
-    navigate('/addtask');
-  }
+    navigate("/addtask");
+  };
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
@@ -26,9 +26,12 @@ const Task = () => {
     e.preventDefault();
 
     if (inputValue.trim() === "") return;
+    console.log(editId, "this is eddit id");
 
     if (editId !== null) {
+      console.log(editId, "this is eddit id");
       // Update existing todo
+      // navigate('/addtask');
 
       const updateTodo = todos.map((todo) =>
         todo.id === editId ? { ...todo, description: inputValue } : todo
@@ -47,6 +50,9 @@ const Task = () => {
             },
           }
         );
+
+        // const completedCount = response.filter(todo => todo.completed === 1).length;
+        // localStorage.setItem("completed",JSON.stringify(completedCount));
       } catch (err) {
         console.log("Error on update todo", err);
       }
@@ -72,27 +78,43 @@ const Task = () => {
           }
         );
 
-        console.log("what is response", response);
+        const responseForGet = await axios.get(
+          `${process.env.REACT_APP_BACKEND_API}/todos/`,
+          {
+            headers: {
+              authorization: `Bearer ${validtoken}`,
+            },
+          }
+        );
+
+        // localStorage.setItem("data",JSON.stringify(responseForGet.data.length));
+        setTodos(responseForGet.data);
       } catch (err) {
         console.log("Error on create new todo", err);
       }
-
-      setTodos([...todos, newTodo]);
     }
 
     setInputValue("");
   };
 
   const handleEdit = (id) => {
+    console.log("this is id", id);
     const todoToEdit = todos.find((todo) => todo.id === id);
     setInputValue(todoToEdit.description);
     setEditId(id);
   };
 
   const handleDelete = async (id) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this todo?"
-    );
+    const confirmDelete = await Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to delete your account?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+    });
+
     if (!confirmDelete) return;
 
     const deleteTodo = todos.filter((todo) => todo.id !== id);
@@ -159,6 +181,9 @@ const Task = () => {
           }
         );
         const data = response.data;
+        const completedCount = data.filter(todo => todo.completed === 1).length;
+        // localStorage.setItem("data",JSON.stringify(response.data.length));
+        // localStorage.setItem("completed",JSON.stringify(completedCount));
         setTodos(data);
 
         // Log each todo with its completion status
@@ -168,6 +193,7 @@ const Task = () => {
         //   );
         // });
 
+       
         const dataa = response.data?.description;
         console.log(data);
       } catch (err) {
@@ -185,19 +211,19 @@ const Task = () => {
         <h1 className="todo-title">My Todo List</h1>
 
         <form className="todo-form" onSubmit={handleSubmit}>
-          {/* <input
+          <input
             type="text"
             className="todo-input"
             placeholder="What needs to be done?"
             value={inputValue}
             onChange={handleInputChange}
-          /> */}
-          {/* <button type="submit" className="todo-button submit-button">
+          />
+          <button type="submit" className="todo-button submit-button">
             {editId !== null ? "Update" : "Add"}
-          </button> */}
-          <button className="todo-button submit-button" onClick={handleAddTask}>
-            AddTask
           </button>
+          {/* <button className="todo-button submit-button add-task" onClick={handleAddTask}>
+            AddTask
+          </button> */}
         </form>
 
         <div className="todo-list">
@@ -219,6 +245,7 @@ const Task = () => {
                     />
                   </div>
                   <span className="todo-text">{todo.title}</span>
+                  {/* <span>{todo.id} ""</span> */}
                   <br></br>
                   <span className="todo-text">{todo.description}</span>
                 </div>

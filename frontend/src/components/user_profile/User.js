@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import "./user.css";
 import axios from "axios";
 import Navbar from "../navbar/Navbar";
+import Swal from "sweetalert2";
 
 const User = () => {
   const [userData, setUserData] = useState(null);
@@ -18,11 +19,41 @@ const User = () => {
   const handleDelete = async (e, id) => {
     e.preventDefault();
 
-    const confirmDelete = window.confirm(
-      "Are you sure you want to Delete Account.?"
-    );
-    if (!confirmDelete) return;
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to delete your account?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+    });
 
+    if (!result.isConfirmed) return;
+
+    // 1. checking if todo is exists
+    try {
+      const validtoken = sessionStorage.getItem("token");
+      const hasTodo = await axios.get(
+        `${process.env.REACT_APP_BACKEND_API}/todos/`,
+        {
+          headers: {
+            authorization: `Bearer ${validtoken}`,
+          },
+        }
+      );
+      // Check if any tasks exist
+      if (hasTodo.data.length > 0) {
+        toast.error(
+          "You must delete all your tasks before deleting your account."
+        );
+        return;
+      }
+    } catch (error) {
+      console.log("Error on Todo count", error);
+    }
+
+    // 2. Proceed with deletion
     try {
       const validtoken = sessionStorage.getItem("token");
       const response = await toast.promise(
@@ -46,6 +77,8 @@ const User = () => {
 
       console.log("User Deleted Successfully...");
       setTimeout(() => {
+        sessionStorage.removeItem("token");
+        sessionStorage.removeItem("User");
         navigate("/");
       }, 1500);
     } catch (err) {
@@ -59,13 +92,13 @@ const User = () => {
     if (!isEditing) {
       // Switch to edit mode
       setIsEditing(true);
-      toast('Now you can Edit.!', {
-        icon: '👏',
+      toast("Now you can Edit.!", {
+        icon: "👏",
       });
     } else {
       try {
         const token = sessionStorage.getItem("token");
-      
+
         const response = await axios.put(
           `${process.env.REACT_APP_BACKEND_API}/auth/`,
           userData,
@@ -75,12 +108,12 @@ const User = () => {
             },
           }
         );
-        console.log(response,"response");
+        console.log(response, "response");
         alert("Profile updated successfully!");
         setIsEditing(false); // back to view mode
       } catch (err) {
         console.log("failed to update profile");
-      } 
+      }
     }
   };
 
@@ -95,11 +128,14 @@ const User = () => {
   const fetchUserData = async () => {
     try {
       const validtoken = sessionStorage.getItem("token");
-      const response = await axios.get(`${process.env.REACT_APP_BACKEND_API}/auth/me/`, {
-        headers: {
-          authorization: `Bearer ${validtoken}`,
-        },
-      });
+      const response = await axios.get(
+        `${process.env.REACT_APP_BACKEND_API}/auth/me/`,
+        {
+          headers: {
+            authorization: `Bearer ${validtoken}`,
+          },
+        }
+      );
 
       const data = await response.data;
       console.log("current date", dateOnly);
