@@ -23,7 +23,7 @@ const Dashboard = () => {
         <div className="dashboard-cards">
           <div className="dashboard-card card-blue">
             <h2>Total Tasks</h2>
-            <p>{totalTodos}</p>
+            <p>26</p>
           </div>
           <div className="dashboard-card card-green">
             <h2>Completed</h2>

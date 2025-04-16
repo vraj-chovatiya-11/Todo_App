@@ -1,6 +1,8 @@
 const express = require("express");
 const path = require("path");
 const cors = require("cors");
+// const cron = require('node-cron');
+// const notifier = require('node-notifier');
 
 require("dotenv").config();
 
@@ -24,6 +26,7 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ message: err.message || "Something went wrong!" });
 });
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Application is running on ${PORT}`));

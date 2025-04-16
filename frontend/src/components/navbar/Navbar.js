@@ -85,24 +85,21 @@ const Navbar = () => {
 
           {isMenuOpen && (
             <nav className="mobile-nav">
-              <a href="#" className="mobile-nav-link">
+              <Link to="/dashboard" className="mobile-nav-link">
                 Dashboard
-              </a>
-              <a href="#" className="mobile-nav-link">
+              </Link>
+              <Link to='/mytask' className="mobile-nav-link">
                 My Tasks
-              </a>
-              <a href="#" className="mobile-nav-link">
-                Projects
-              </a>
-              <a href="#" className="mobile-nav-link">
+              </Link>
+              <Link to='/calender' className="mobile-nav-link">
                 Calendar
-              </a>
+              </Link>
               <div className="divider"></div>
               <div className="mobile-profile">
-                <div className="user-info">
+                {/* <div className="user-info">
                   <div className="avatar">JS</div>
                   <span className="user-name">John Smith</span>
-                </div>
+                </div> */}
                 <button className="notification-btn">
                   <svg
                     className="menu-icon"

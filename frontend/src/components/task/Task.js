@@ -107,7 +107,7 @@ const Task = () => {
   const handleDelete = async (id) => {
     const confirmDelete = await Swal.fire({
       title: "Are you sure?",
-      text: "Do you really want to delete your account?",
+      text: "Do you really want to delete your Todo?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#d33",
@@ -115,7 +115,7 @@ const Task = () => {
       confirmButtonText: "Yes, delete it!",
     });
 
-    if (!confirmDelete) return;
+    if (!confirmDelete.isConfirmed) return;
 
     const deleteTodo = todos.filter((todo) => todo.id !== id);
 
