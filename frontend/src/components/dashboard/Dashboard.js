@@ -1,17 +1,17 @@
-
 import React from "react";
 import "./dashboard.css";
 import Navbar from "../navbar/Navbar";
 // import { AuthProvider } from "../../helper/AuthContext";
+import { FaTasks, FaCheckCircle, FaHourglassHalf } from "react-icons/fa";
+import ToDoListIcon from '../../assets/photos/to-do-list.png';
+import Done from "../../assets/photos/done.png";
 
 const Dashboard = () => {
   const username = sessionStorage.getItem("username") || "User";
   // const user = { user } = AuthProvider();
   // const username = user.user?.username || "User";
 
-
   // const totalTodos = localStorage.getItem('data');
-
 
   return (
     <>
@@ -22,16 +22,37 @@ const Dashboard = () => {
         {/* Stats Cards */}
         <div className="dashboard-cards">
           <div className="dashboard-card card-blue">
-            <h2>Total Tasks</h2>
-            <p>26</p>
+            <div>
+              <h2>Total Tasks</h2>
+              <p>26</p>
+            </div>
+              <img
+                src={ToDoListIcon}
+                alt="image"
+                className="dashboard-image"
+              />
           </div>
           <div className="dashboard-card card-green">
-            <h2>Completed</h2>
-            <p>24</p>
+            <div>
+              <h2>Completed</h2>
+              <p>24</p>
+            </div>
+            <img
+                src={Done}
+                alt="image"
+                className="dashboard-image"
+              />
           </div>
           <div className="dashboard-card card-red">
-            <h2>Pending</h2>
-            <p>8</p>
+            <div>
+              <h2>Pending</h2>
+              <p>8</p>
+            </div>
+            <img
+                src={ToDoListIcon}
+                alt="image"
+                className="dashboard-image"
+              />
           </div>
         </div>
 

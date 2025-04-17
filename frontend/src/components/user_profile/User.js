@@ -99,17 +99,26 @@ const User = () => {
       try {
         const token = sessionStorage.getItem("token");
 
-        const response = await axios.put(
-          `${process.env.REACT_APP_BACKEND_API}/auth/`,
-          userData,
-          {
+        const response = await toast.promise(
+          axios.put(`${process.env.REACT_APP_BACKEND_API}/auth/`, userData, {
             headers: {
               authorization: `Bearer ${token}`,
+            },
+          }),
+          {
+            loading: "Updating...",
+            success: "User Update Successfully...",
+            error: (err) => {
+              const message =
+                err.response?.data?.message ||
+                err.message ||
+                "Something went wrong";
+              return `Update Failed : ${message}`;
             },
           }
         );
         console.log(response, "response");
-        alert("Profile updated successfully!");
+        // alert("Profile updated successfully!");
         setIsEditing(false); // back to view mode
       } catch (err) {
         console.log("failed to update profile");

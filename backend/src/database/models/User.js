@@ -7,7 +7,8 @@ class User {
             const [rows] = await pool.query('SELECT * from test WHERE id = ?', [id]);
             return rows[0];
         }catch(err){
-            throw new Error(err);
+            // throw new Error(err);
+            return false;
         }
     }
 
@@ -22,12 +23,24 @@ class User {
         }
     }
 
+    static async findByEmailForUpdate(email, userId){
+        try{
+            const [rows] = await pool.query('SELECT * from test WHERE email = ? and id != ?', [email, userId]);
+            return rows[0];
+        }catch(error){
+            // throw new Error(error);
+            return false;
+            // return null;
+        }
+    }
+
     static async findByUsername(username){
         try{
             const [rows] = await pool.query('SELECT * from test WHERE username = ?', [username]);
             return rows[0];
         }catch(error){
-            throw new Error(error);
+            // throw new Error(error);
+            return false;
         }
     }
 
@@ -55,7 +68,8 @@ class User {
             return row[0];
         }catch(err){
             console.log("Can not find user email or user not exists..");
-            throw new Error(err);
+            // throw new Error(err);
+            return false;
         }
     }
 
@@ -68,7 +82,8 @@ class User {
             const [result] = await pool.query('UPDATE test SET username = ?, email = ? WHERE id = ?', [user.username, user.email, user.userId]);
             return result.affectedRows;       
         }catch(error){
-            throw new Error(error);
+            // throw new Error(error);
+            return false;
         }
     }
 
@@ -77,7 +92,8 @@ class User {
             const [result] = await pool.query("DELETE FROM test where id = ?", [user]);
             return result.affectedRows;
         }catch(err){
-            throw new Error(err);
+            // throw new Error(err);
+            return false;
         }
     }
 }

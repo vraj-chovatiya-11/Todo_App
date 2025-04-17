@@ -11,26 +11,33 @@ import AddTask from "./components/task/AddTask";
 
 import PublicLayout from "./components/privateRoute/PublicRoute";
 import PrivateLayout from "./components/privateRoute/PrivateRoute";
+import Footer from "./components/footer/Footer";
 
 function App() {
+  const token = sessionStorage.getItem("token");
+
   return (
     <Router>
-      <Routes>
-        {/* Public routes */}
-        <Route element={<PublicLayout />}>
-          <Route path="/" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-        </Route>
+      <div className="app-wrapper">
+        <Routes>
+          {/* Public routes */}
+          <Route element={<PublicLayout />}>
+            <Route path="/" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+          </Route>
 
-        {/* Private routes */}
-        <Route element={<PrivateLayout />}>
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/mytask" element={<Task />} />
-          <Route path="/calender" element={<Calender />} />
-          <Route path="/profile" element={<User />} />
-          <Route path="/addtask" element={<AddTask />} />
-        </Route>
-      </Routes>
+          {/* Private routes */}
+          <Route element={<PrivateLayout />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/mytask" element={<Task />} />
+            <Route path="/calender" element={<Calender />} />
+            <Route path="/profile" element={<User />} />
+            <Route path="/addtask" element={<AddTask />} />
+          </Route>
+        </Routes>
+        {/* ✅ Show footer only if logged in */}
+        {token && <Footer />}
+      </div>
     </Router>
   );
 }

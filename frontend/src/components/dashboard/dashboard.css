@@ -19,10 +19,13 @@
   }
   
   .dashboard-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     background-color: white;
-    padding: 25px;
     border-radius: 12px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.06);
+    padding: 25px 40px;
   }
   
   .dashboard-card h2 {
@@ -34,6 +37,10 @@
   .dashboard-card p {
     font-size: 32px;
     font-weight: 700;
+  }
+
+  .dashboard-card img{
+    width: 20%;
   }
   
   .card-blue p {
